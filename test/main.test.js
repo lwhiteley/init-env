@@ -37,7 +37,7 @@ describe('init-env suite: ', function () {
 
         it('should return empty object if json is valid but in wrong format', function(){
           sinon.stub(fs, 'readFileSync').returns(
-            JSON.stringify([{ test: 'testing' }])
+            JSON.stringify([{ test: 'testing'}])
           );
 
           var envs = service();
@@ -47,7 +47,8 @@ describe('init-env suite: ', function () {
 
         it('should return object of env vars if json is populated', function(){
           var value = {
-            "test": "testing"
+            "test": "testing",
+            OBJECT_PROP: {test: 'test'}
           };
           sinon.stub(fs, 'readFileSync').returns(
             JSON.stringify(value)
@@ -55,6 +56,32 @@ describe('init-env suite: ', function () {
 
           var envs = service();
 
+          expect(envs).to.be.eql({test: 'testing'});
+        });
+
+        it('should return object without properties that have object values', function(){
+          var value = {
+            "test": "testing",
+            OBJECT_PROP: {test: 'test'}
+          };
+          sinon.stub(fs, 'readFileSync').returns(
+            JSON.stringify(value)
+          );
+
+          var envs = service();
+          expect(envs).to.be.eql({test: 'testing'});
+        });
+
+        it('should return object without properties that have array values', function(){
+          var value = {
+            "test": "testing",
+            OBJECT_PROP: [{test: 'test'}]
+          };
+          sinon.stub(fs, 'readFileSync').returns(
+            JSON.stringify(value)
+          );
+
+          var envs = service();
           expect(envs).to.be.eql({test: 'testing'});
         });
 

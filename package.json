@@ -1,6 +1,6 @@
 {
   "name": "init-env",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "initialize environment variables into process.env with a json file",
   "main": "index.js",
   "scripts": {

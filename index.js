@@ -38,7 +38,9 @@ var self = function(config){
 
       if(!_.isEmpty(envVars)){
         _.forEach(envVars, function(value, key){
-          process.env[key] = value;
+          if(!_.isObject(value)){
+            process.env[key] = value;
+          }
         });
         logger.log(constants.TAG, 'COMPLETE: environment variables set');
         result = _.pick(process.env, Object.keys(envVars));
