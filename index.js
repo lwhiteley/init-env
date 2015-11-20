@@ -5,16 +5,19 @@ var constants = {
   UTF8: 'utf8',
   TAG: '[INIT-ENV]'
 };
-var _config = {
+var defaultConfig = {
   //decide whether to log to console
   logToConsole: false,
   //file to read with env vars
   filePath: './.env.json',
   //path in json to look for env vars
-  jsonPath: null
+  jsonPath: null,
+  //decides whether to overwrite an env var
+  overwrite: true
 };
 
 var configure = function(config){
+  var _config = _.cloneDeep(defaultConfig);
   if(_.isPlainObject(config)){
     _config = _.merge(_config, config);
     if(_config.logToConsole){
@@ -26,7 +29,7 @@ var configure = function(config){
 
 var self = function(config){
   // configure instance
-  configure(config);
+  var _config = configure(config);
   try{
     var envVars = JSON.parse(fs.readFileSync(_config.filePath, constants.UTF8)),
         result = {};
@@ -38,7 +41,7 @@ var self = function(config){
 
       if(!_.isEmpty(envVars)){
         _.forEach(envVars, function(value, key){
-          if(!_.isObject(value)){
+          if(!_.isObject(value) && _config.overwrite){
             process.env[key] = value;
           }
         });

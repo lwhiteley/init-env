@@ -7,10 +7,16 @@ var assert = chai.assert;
 var expect = chai.expect;
 
 describe('init-env suite: ', function () {
-
-
+  var nodeEnv;
+  beforeEach(function(){
+      nodeEnv = _.cloneDeep(process.env);
+  });
+  afterEach(function(){
+    process.env = nodeEnv;
+  });
 
     describe('init-env with default config suite: ', function () {
+
       afterEach(function(){
         fs.readFileSync.restore();
       });
@@ -120,6 +126,20 @@ describe('init-env suite: ', function () {
           var envs = service({logToConsole:true, jsonPath:'envs', filePath: './test/myfile.json'});
 
           expect(envs).to.be.empty;
+        });
+
+        it('should not overwrite an env var when overwrite flag is set to false', function(){
+          process.env.NODE_ENV='stage';
+          sinon.stub(fs, 'readFileSync').returns(
+            JSON.stringify({NODE_ENV: 'testing'})
+          );
+
+          var envs = service({
+            logToConsole:true,
+            overwrite: false
+          });
+
+          expect(envs).to.be.eql({NODE_ENV: 'stage'});
         });
 
 

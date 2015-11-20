@@ -28,7 +28,7 @@ console.log(process.env.NODE_ENV) // --> development
 
 ### Custom Configuration
 
-You can pass custom configs to the module to if the defaults don't match what you want to do.
+You can pass custom configs to the module if the defaults don't match what you want to do.
 
 #### Options
 ```
@@ -47,6 +47,11 @@ property:    jsonPath (string)
 default:     null              
 description: property path to where the environment
              vars are located in the JSON
+____________________________________________________
+property:    overwrite (boolean)
+default:     true              
+description: when true this decide if the env var
+             will be overwritten if already defined
 ____________________________________________________
 ```
 
@@ -69,7 +74,8 @@ file: `server.js`
 require('init-env')({
   logToConsole:true,
   jsonPath:'config.envVars',
-  filePath: './.config/.env.json'
+  filePath: './.config/.env.json',
+  overwrite: true
 });
 console.log(process.env.NODE_ENV) // --> development
 
