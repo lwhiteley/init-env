@@ -84,3 +84,7 @@ console.log(process.env.NODE_ENV) // --> development
 Notes:
 - report issues
 - pull requests are welcome
+
+### ChangeLog/Releases
+
+Please see releases on github: https://github.com/lwhiteley/init-env/releases
