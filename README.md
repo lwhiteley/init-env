@@ -87,4 +87,4 @@ Notes:
 
 ### ChangeLog/Releases
 
-Please see releases on github: https://github.com/lwhiteley/init-env/releases
+Please see [releases](https://github.com/lwhiteley/init-env/releases) on github 
